@@ -43,7 +43,8 @@ windowNavigationKeys conf =
 gridKeys :: [(String, X ())]
 gridKeys =
   [ ("M-f",     runSelectedAction kiwiGSConfig favorites)
-  , ("M-S-s",   runSelectedAction kiwiGSConfig screens) ]
+  , ("M-S-s",   runSelectedAction kiwiGSConfig screens)
+  , ("M-S-l",   runSelectedAction kiwiGSConfig powerActions) ]
   where
     screens =
       [ (name, spawn ("~/.screenlayout/" ++ filename ++ ".sh"))
@@ -60,6 +61,19 @@ favorites =
   [ ("Chromium",        spawn "chromium")
   , ("Sublime Text 3",  spawn "~/sublime_text_3/sublime_text")
   , ("Lock screen",     spawn "~/scripts/lock_screen.sh") ]
+
+powerActions :: [(String, X ())]
+powerActions =
+  [ ("Suspend",         sudo (systemctl "suspend" []))
+  , ("Halt",            sudo (systemctl "halt" []))
+  , ("Reboot",          sudo (systemctl "reboot" []))
+  , ("Hibernate",       sudo (systemctl "hibernate" [])) ]
+  where
+    sudo :: String -> X ()
+    sudo = spawn . printf "gksudo %s"
+
+    systemctl :: String -> [String] -> String
+    systemctl cmd args = printf "systemctl %s %s" cmd (unwords args)
 
 -- Workspaces plane actions
 workspacesPlaneKeys :: XConfig Layout -> [((KeyMask, KeySym), X ())]
