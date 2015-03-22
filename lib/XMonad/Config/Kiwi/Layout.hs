@@ -48,7 +48,7 @@ tallLayout = smartSpacing 2 $ windowNavigation $ Tall 1 (3/100) (1/2)
 
 devLayout = (renamed [Replace "Default"] defaultLayout ||| renamed [Replace "Tall"] tallLayout)
   <$ renamed [PrependWords "Dev"]
-mediaLayout = (smartBorders Full)
+mediaLayout = smartBorders Full
   <$ renamed [Replace "Media"]
 
 workspacesLayoutHook =

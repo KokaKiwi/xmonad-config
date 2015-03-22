@@ -5,6 +5,7 @@ module XMonad.Config.Kiwi.Config (
 
   kiwiScratchpads
 ) where
+import Text.Printf
 import XMonad
 import XMonad.Actions.GridSelect
        (HasColorizer, GSConfig, defaultGSConfig)
@@ -39,5 +40,7 @@ scratchpadsFloating = NSP.customFloating scratchpadsRect
 
 kiwiScratchpads :: NSP.NamedScratchpads
 kiwiScratchpads =
-  [ NSP.NS "htop"       "urxvt -e \"htop\""       (title =? "htop")       scratchpadsFloating
-  , NSP.NS "alsamixer"  "urxvt -e \"alsamixer\""  (title =? "alsamixer")  scratchpadsFloating ]
+  [ NSP.NS "htop"       (urxvt "htop")       (title =? "htop")       scratchpadsFloating
+  , NSP.NS "alsamixer"  (urxvt "alsamixer")  (title =? "alsamixer")  scratchpadsFloating ]
+  where
+    urxvt = printf "urxvt -e \"%s\""
