@@ -10,7 +10,7 @@ import XMonad.Actions.NoBorders
 import XMonad.Actions.Plane
 import XMonad.Actions.WindowMenu
 import XMonad.Config.Kiwi.Config      (kiwiGSConfig, kiwiXPConfig, kiwiScratchpads)
-import XMonad.Config.Kiwi.Workspaces  (kiwiWorkspaceXName, kiwiWorkspaceLookup, workspaceId, kiwiWorkspaceXNames)
+import XMonad.Config.Kiwi.Workspaces  (kiwiWorkspaceXName, kiwiWorkspaceLookup, workspaceId, kiwiWorkspaceXNames, kiwiWorkspacesHeight)
 import XMonad.Config.Kiwi.Utils       ((<$), showMessage)
 import XMonad.Config.Kiwi.Utils.Keys  (addKeyBindings)
 import XMonad.Layout.WindowNavigation
@@ -43,8 +43,7 @@ windowNavigationKeys conf =
 gridKeys :: [(String, X ())]
 gridKeys =
   [ ("M-f",     runSelectedAction kiwiGSConfig favorites)
-  , ("M-S-s",   runSelectedAction kiwiGSConfig screens)
-  , ("M-S-d",   runSelectedAction kiwiGSConfig debug) ]
+  , ("M-S-s",   runSelectedAction kiwiGSConfig screens) ]
   where
     screens =
       [ (name, spawn ("~/.screenlayout/" ++ filename ++ ".sh"))
@@ -62,22 +61,10 @@ favorites =
   , ("Sublime Text 3",  spawn "~/sublime_text_3/sublime_text")
   , ("Lock screen",     spawn "~/scripts/lock_screen.sh") ]
 
-debug :: [(String, X ())]
-debug =
-  [ ("Workspaces",      showMessage ("Workspaces: " ++ unwords workspaces'' ++ "\nKiwi workspaces: " ++ unwords workspaces')) ]
-  where
-    ids = ["epitech", "dev.1", "dev.2", "dev.3"]
-    ws = kiwiWorkspaceLookup (\w -> workspaceId w `elem` ids)
-    workspaces' :: [String]
-    workspaces' = zipWith (printf "%s/%s") workspaceNames workspaceIds
-    workspaces'' = kiwiWorkspaceXNames
-    workspaceNames = map (\((x, y), _) -> kiwiWorkspaceXName x y) ws
-    workspaceIds = map (\(_, w) -> workspaceId w) ws
-
 -- Workspaces plane actions
 workspacesPlaneKeys :: XConfig Layout -> [((KeyMask, KeySym), X ())]
 workspacesPlaneKeys conf = M.assocs $
-  planeKeys (modMask conf .|. controlMask) (Lines 3) Circular
+  planeKeys (modMask conf .|. controlMask) (Lines kiwiWorkspacesHeight) Circular
 
 -- Scratchpads keys
 scratchpadsKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]

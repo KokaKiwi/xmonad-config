@@ -4,7 +4,7 @@ module XMonad.Config.Kiwi.Layout (
 ) where
 import XMonad
 import XMonad.Config.Kiwi.Workspaces
-       (Workspace, workspaceId, kiwiWorkspaceLookup, kiwiWorkspaceXName)
+       (Workspace, workspaceId, workspaceType, kiwiWorkspaceLookup, kiwiWorkspaceXName)
 import XMonad.Config.Kiwi.Utils ((<$))
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.LayoutModifier
@@ -20,7 +20,7 @@ forceWindow = id
 
 defaultLayout = Full
 
-kiwiLayoutHook = forceWindow $ avoidStruts workspacesLayoutHook
+kiwiLayoutHook = forceWindow workspacesLayoutHook
 
 -- Workspace layouts
 kiwiWorkspaceLayout :: (LayoutClass l1 a, LayoutClass l2 a) => (Workspace -> Bool) -> l1 a -> l2 a -> PerWorkspace l1 l2 a
@@ -36,6 +36,9 @@ onKiwiWorkspace = kiwiWorkspaceLayout
 onKiwiWorkspaceId :: (LayoutClass l1 a, LayoutClass l2 a) => String -> l1 a -> l2 a -> PerWorkspace l1 l2 a
 onKiwiWorkspaceId wid = onKiwiWorkspace ((==) wid . workspaceId)
 
+onKiwiWorkspaceType :: (LayoutClass l1 a, LayoutClass l2 a) => Maybe String -> l1 a -> l2 a -> PerWorkspace l1 l2 a
+onKiwiWorkspaceType wtype = onKiwiWorkspace ((==) wtype . workspaceType)
+
 onKiwiWorkspaces :: (LayoutClass l1 a, LayoutClass l2 a) => [Workspace -> Bool] -> l1 a -> l2 a -> PerWorkspace l1 l2 a
 onKiwiWorkspaces preds =
   onKiwiWorkspace (\w -> any (\p -> p w) preds)
@@ -44,6 +47,10 @@ onKiwiWorkspaceIds :: (LayoutClass l1 a, LayoutClass l2 a) => [String] -> l1 a -
 onKiwiWorkspaceIds workspaceIds =
   onKiwiWorkspaces (map (\wid -> (==) wid . workspaceId) workspaceIds)
 
+onKiwiWorkspaceTypes :: (LayoutClass l1 a, LayoutClass l2 a) => [Maybe String] -> l1 a -> l2 a -> PerWorkspace l1 l2 a
+onKiwiWorkspaceTypes workspaceTypes =
+  onKiwiWorkspaces (map (\wtype -> (==) wtype . workspaceType) workspaceTypes)
+
 tallLayout = smartSpacing 2 $ windowNavigation $ Tall 1 (3/100) (1/2)
 
 devLayout = (renamed [Replace "Default"] defaultLayout ||| renamed [Replace "Tall"] tallLayout)
@@ -51,7 +58,6 @@ devLayout = (renamed [Replace "Default"] defaultLayout ||| renamed [Replace "Tal
 mediaLayout = smartBorders Full
   <$ renamed [Replace "Media"]
 
-workspacesLayoutHook =
-  onKiwiWorkspaceIds ["epitech", "dev.1", "dev.2", "dev.3"] devLayout $
-  onKiwiWorkspaceIds ["media"] mediaLayout $
-  defaultLayout
+workspacesLayoutHook = defaultLayout
+  <$ onKiwiWorkspaceTypes [Just "dev"] devLayout
+  <$ onKiwiWorkspaceTypes [Just "media"] mediaLayout

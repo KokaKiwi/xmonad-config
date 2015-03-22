@@ -1,13 +1,15 @@
 module XMonad.Config.Kiwi.Workspaces (
-  Workspace,
-  workspaceId,
-  workspaceName,
+  Workspace(..),
 
   workspaceNames,
   workspaceXName,
   workspaceXNames,
 
   kiwiWorkspaces,
+  kiwiWorkspacesSize,
+  kiwiWorkspacesWidth,
+  kiwiWorkspacesHeight,
+
   kiwiWorkspace,
   kiwiWorkspaceIndex,
   kiwiWorkspaceName,
@@ -24,7 +26,8 @@ import XMonad.Config.Kiwi.Utils   (enumerate)
 -- Workspace operations
 data Workspace = Workspace
   { workspaceId         :: String
-  , workspaceName       :: String }
+  , workspaceName       :: String
+  , workspaceType       :: Maybe String }
 
 workspaceNames :: [[Workspace]] -> [[String]]
 workspaceNames = map $ map workspaceName
@@ -42,33 +45,51 @@ workspaceXNames ws = map makeName indexedWorkspaces
 mainWorkspace :: Workspace
 mainWorkspace = Workspace
   { workspaceId   = "main"
-  , workspaceName = "Main" }
+  , workspaceName = "Main"
+  , workspaceType = Nothing }
 
 epitechWorkspace :: Workspace
 epitechWorkspace = Workspace
   { workspaceId   = "epitech"
-  , workspaceName = "Epitech" }
+  , workspaceName = "Epitech"
+  , workspaceType = Just "dev" }
 
 mediaWorkspace :: Workspace
 mediaWorkspace = Workspace
   { workspaceId   = "media"
-  , workspaceName = "Media" }
+  , workspaceName = "Media"
+  , workspaceType = Just "media" }
 
 miscWorkspace :: Workspace
 miscWorkspace = Workspace
   { workspaceId   = "misc"
-  , workspaceName = "Misc" }
+  , workspaceName = "Misc"
+  , workspaceType = Nothing }
 
 devWorkspace :: Int -> Workspace
 devWorkspace n = Workspace
   { workspaceId   = printf "dev.%d" n
-  , workspaceName = printf "Dev [%d]" n }
+  , workspaceName = printf "Dev [%d]" n
+  , workspaceType = Just "dev" }
 
 kiwiWorkspaces :: [[Workspace]]
 kiwiWorkspaces =
   [ [mainWorkspace,   epitechWorkspace,   devWorkspace 1]
   , [mediaWorkspace,  miscWorkspace,      devWorkspace 2]
   , [miscWorkspace,   miscWorkspace,      devWorkspace 3] ]
+
+kiwiWorkspacesSize :: (Int, Int)
+kiwiWorkspacesSize = (length (head kiwiWorkspaces), length kiwiWorkspaces)
+
+kiwiWorkspacesWidth :: Int
+kiwiWorkspacesWidth = width
+  where
+    (width, _) = kiwiWorkspacesSize
+
+kiwiWorkspacesHeight :: Int
+kiwiWorkspacesHeight = height
+  where
+    (_, height) = kiwiWorkspacesSize
 
 kiwiWorkspace :: Int -> Int -> Workspace
 kiwiWorkspace x y = kiwiWorkspaces !! y !! x
