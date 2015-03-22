@@ -83,17 +83,18 @@ workspacesPlaneKeys conf = M.assocs $
 -- Scratchpads keys
 scratchpadsKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]
 scratchpadsKeys conf =
-  [ ((noModMask,      xK_twosuperior),    namedScratchpadAction kiwiScratchpads "htop")
-  , ((modMask conf,   xK_twosuperior),    namedScratchpadAction kiwiScratchpads "alsamixer") ]
+  [ ((noModMask,                    xK_twosuperior),    namedScratchpadAction kiwiScratchpads "htop")
+  , ((modMask conf,                 xK_twosuperior),    namedScratchpadAction kiwiScratchpads "alsamixer")
+  , ((modMask conf .|. shiftMask,   xK_m),              namedScratchpadAction kiwiScratchpads "pmus") ]
 
 -- Custom
 customKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]
 customKeys conf =
-  [ ((modMask conf,   xK_l),              spawn "~/scripts/lock_screen.sh")
-  , ((modMask conf,   xK_s),              spawn "~/sublime_text_3/sublime_text")
-  , ((modMask conf,   xK_w),              spawn "~/scripts/wallpaper_cron.sh")
+  [ ((modMask conf,                 xK_l),              spawn "~/scripts/lock_screen.sh")
+  , ((modMask conf,                 xK_s),              spawn "~/sublime_text_3/sublime_text")
+  , ((modMask conf,                 xK_w),              spawn "~/scripts/wallpaper_cron.sh")
 
-  , ((modMask conf,   xK_o),              windowMenu)
-  , ((modMask conf,   xK_F2),             xmonadPrompt kiwiXPConfig)
-  , ((modMask conf,   xK_g),              withFocused toggleBorder)
+  , ((modMask conf,                 xK_o),              windowMenu)
+  , ((modMask conf,                 xK_F2),             xmonadPrompt kiwiXPConfig)
+  , ((modMask conf,                 xK_g),              withFocused toggleBorder)
   , ((modMask conf .|. controlMask, xK_w), gridselectWorkspace kiwiGSConfig W.greedyView) ]

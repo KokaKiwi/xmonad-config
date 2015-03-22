@@ -32,15 +32,23 @@ kiwiGSConfig :: (HasColorizer a) => GSConfig a
 kiwiGSConfig = defaultGSConfig
 
 -- XMonad.Util.NamedScratchpad pads
+scratchpadCenterRect :: Rational -> Rational -> W.RationalRect
+scratchpadCenterRect w h = W.RationalRect ((1-w)/2) ((1-h)/2) w h
+
+scratchpadCenterFloating :: Rational -> Rational -> ManageHook
+scratchpadCenterFloating w h = NSP.customFloating (scratchpadCenterRect w h)
+
 scratchpadsRect :: W.RationalRect
-scratchpadsRect = W.RationalRect (1/6) (1/6) (2/3) (2/3)
+scratchpadsRect = scratchpadCenterRect (2/3) (2/3)
 
 scratchpadsFloating :: ManageHook
 scratchpadsFloating = NSP.customFloating scratchpadsRect
 
 kiwiScratchpads :: NSP.NamedScratchpads
 kiwiScratchpads =
-  [ NSP.NS "htop"       (urxvt "htop")       (title =? "htop")       scratchpadsFloating
-  , NSP.NS "alsamixer"  (urxvt "alsamixer")  (title =? "alsamixer")  scratchpadsFloating ]
+  [ NSP.NS "htop"       (urxvt "htop" [])               (title =? "htop")       scratchpadsFloating
+  , NSP.NS "alsamixer"  (urxvt "alsamixer" [])          (title =? "alsamixer")  scratchpadsFloating
+  , NSP.NS "pmus"       (urxvt "pms" [])                (appName =? "pms")      (scratchpadCenterFloating (3/5) (3/5)) ]
   where
-    urxvt = printf "urxvt -e \"%s\""
+    urxvt :: String -> [String] -> String
+    urxvt cmd args = printf "urxvt -name %s -e \"%s\"" cmd (unwords (cmd:args))
