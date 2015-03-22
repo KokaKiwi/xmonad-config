@@ -97,4 +97,4 @@ customKeys conf =
   , ((modMask conf,                 xK_o),              windowMenu)
   , ((modMask conf,                 xK_F2),             xmonadPrompt kiwiXPConfig)
   , ((modMask conf,                 xK_g),              withFocused toggleBorder)
-  , ((modMask conf .|. controlMask, xK_w), gridselectWorkspace kiwiGSConfig W.greedyView) ]
+  , ((modMask conf .|. controlMask, xK_w),              gridselectWorkspace kiwiGSConfig W.greedyView) ]
