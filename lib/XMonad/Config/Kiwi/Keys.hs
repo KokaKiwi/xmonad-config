@@ -85,7 +85,7 @@ scratchpadsKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]
 scratchpadsKeys conf =
   [ ((noModMask,                    xK_twosuperior),    namedScratchpadAction kiwiScratchpads "htop")
   , ((modMask conf,                 xK_twosuperior),    namedScratchpadAction kiwiScratchpads "alsamixer")
-  , ((modMask conf .|. shiftMask,   xK_m),              namedScratchpadAction kiwiScratchpads "pmus") ]
+  , ((modMask conf .|. shiftMask,   xK_m),              namedScratchpadAction kiwiScratchpads "ncmpcpp") ]
 
 -- Custom
 customKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]

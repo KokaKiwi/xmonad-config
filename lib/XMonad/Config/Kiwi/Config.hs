@@ -48,7 +48,7 @@ kiwiScratchpads :: NSP.NamedScratchpads
 kiwiScratchpads =
   [ NSP.NS "htop"       (urxvt "htop" [])               (title =? "htop")       scratchpadsFloating
   , NSP.NS "alsamixer"  (urxvt "alsamixer" [])          (title =? "alsamixer")  scratchpadsFloating
-  , NSP.NS "pmus"       (urxvt "pms" [])                (appName =? "pms")      (scratchpadCenterFloating (3/5) (3/5)) ]
+  , NSP.NS "ncmpcpp"    (urxvt "ncmpcpp" [])            (appName =? "ncmpcpp")      (scratchpadCenterFloating (3/5) (3/5)) ]
   where
     urxvt :: String -> [String] -> String
     urxvt cmd args = printf "urxvt -name %s -e \"%s\"" cmd (unwords (cmd:args))
