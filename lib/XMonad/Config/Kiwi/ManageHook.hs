@@ -28,4 +28,5 @@ appRules = composeAll
   , className =? "Xmessage"     --> doFloat
   , className =? "Pidgin"       --> doFloat
   , className =? "Gajim"        --> doFloat
-  , className =? "Thunar"       --> doFloat ]
+  , className =? "Thunar"       --> doFloat
+  , className =? "Steam"        --> doFloat ]
