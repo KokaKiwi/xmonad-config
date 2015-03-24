@@ -8,10 +8,11 @@ Config
                , Run Swap [] 10
                , Run Network "wlo1" [] 10
                , Run Date "%a %b %_d %k:%M" "date" 10
-               , Run MPD ["-t", "<state>: <artist> - <track>"] 10
+               , Run Battery ["-t", "<fc=#9CCB19>Batt</fc>: <left>% (<acstatus>) / <timeleft>"] 10
+               , Run MPD ["-t", "<fc=#9CCB19><state></fc>: <artist> - <track> <title> [<fc=#43C7A5><lapsed></fc> / <fc=#43C7A5><length></fc>]"] 10
                , Run StdinReader
                ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% }{ %cpu% | %memory% * %swap% %wlo1% | %mpd% | <fc=#ee9a00>%date%</fc>"
+  , template = "%StdinReader% }{ %cpu% | %memory% * %swap% %wlo1% %battery% | %mpd% | <fc=#ee9a00>%date%</fc>"
   }
