@@ -95,10 +95,10 @@ kiwiWorkspace :: Int -> Int -> Workspace
 kiwiWorkspace x y = kiwiWorkspaces !! y !! x
 
 kiwiWorkspaceIndex :: Int -> Int -> Int
-kiwiWorkspaceIndex x y = y * 3 + x
+kiwiWorkspaceIndex x y = y * kiwiWorkspacesWidth + x
 
 kiwiWorkspacePos :: Int -> (Int, Int)
-kiwiWorkspacePos index = (index `mod` 3, index `div` 3)
+kiwiWorkspacePos index = (index `mod` kiwiWorkspacesWidth, index `div` kiwiWorkspacesWidth)
 
 kiwiWorkspaceName :: Int -> Int -> String
 kiwiWorkspaceName x y = workspaceName $ kiwiWorkspace x y
