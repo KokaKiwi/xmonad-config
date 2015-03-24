@@ -46,9 +46,10 @@ scratchpadsFloating = NSP.customFloating scratchpadsRect
 
 kiwiScratchpads :: NSP.NamedScratchpads
 kiwiScratchpads =
-  [ NSP.NS "htop"       (urxvt "htop" [])               (title =? "htop")       scratchpadsFloating
-  , NSP.NS "alsamixer"  (urxvt "alsamixer" [])          (title =? "alsamixer")  scratchpadsFloating
-  , NSP.NS "ncmpcpp"    (urxvt "ncmpcpp" [])            (appName =? "ncmpcpp")      (scratchpadCenterFloating (3/5) (3/5)) ]
+  [ NSP.NS "htop"       (urxvt "htop" [])               (title =? "htop")           scratchpadsFloating
+  , NSP.NS "alsamixer"  (urxvt "alsamixer" [])          (title =? "alsamixer")      scratchpadsFloating
+  , NSP.NS "ncmpcpp"    (urxvt "ncmpcpp" [])            (appName =? "ncmpcpp")      (scratchpadCenterFloating (3/5) (3/5))
+  , NSP.NS "zim"        "zim"                           (appName =? "zim")          scratchpadsFloating ]
   where
     urxvt :: String -> [String] -> String
     urxvt cmd args = printf "urxvt -name %s -e \"%s\"" cmd (unwords (cmd:args))

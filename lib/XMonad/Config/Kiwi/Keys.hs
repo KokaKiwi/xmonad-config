@@ -67,7 +67,8 @@ powerActions =
   [ ("Suspend",         sudo (systemctl "suspend" []))
   , ("Halt",            sudo (systemctl "halt" []))
   , ("Reboot",          sudo (systemctl "reboot" []))
-  , ("Hibernate",       sudo (systemctl "hibernate" [])) ]
+  , ("Hibernate",       sudo (systemctl "hibernate" []))
+  , ("Lock",            spawn "~/scripts/lock_screen.sh") ]
   where
     sudo :: String -> X ()
     sudo = spawn . printf "gksudo %s"
@@ -85,7 +86,8 @@ scratchpadsKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]
 scratchpadsKeys conf =
   [ ((noModMask,                    xK_twosuperior),    namedScratchpadAction kiwiScratchpads "htop")
   , ((modMask conf,                 xK_twosuperior),    namedScratchpadAction kiwiScratchpads "alsamixer")
-  , ((modMask conf .|. shiftMask,   xK_m),              namedScratchpadAction kiwiScratchpads "ncmpcpp") ]
+  , ((modMask conf .|. shiftMask,   xK_m),              namedScratchpadAction kiwiScratchpads "ncmpcpp")
+  , ((modMask conf,                 xK_z),              namedScratchpadAction kiwiScratchpads "zim") ]
 
 -- Custom
 customKeys :: XConfig Layout -> [((ButtonMask, KeySym), X ())]

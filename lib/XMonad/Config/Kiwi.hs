@@ -8,9 +8,11 @@ import XMonad.Config.Kiwi.Layout      (kiwiLayoutHook)
 import XMonad.Config.Kiwi.ManageHook  (kiwiManageHook)
 import XMonad.Config.Kiwi.Utils       ((<$))
 import XMonad.Config.Kiwi.Workspaces  (kiwiWorkspaceXNames)
+import XMonad.Hooks.ICCCMFocus        (takeTopFocus)
 
 kiwiConfig = kiwiXConfig
   { workspaces        = kiwiWorkspaceXNames
   , layoutHook        = kiwiLayoutHook
-  , manageHook        = kiwiManageHook kiwiXConfig }
+  , manageHook        = kiwiManageHook kiwiXConfig
+  , logHook           = takeTopFocus }
   <$ configureKeys

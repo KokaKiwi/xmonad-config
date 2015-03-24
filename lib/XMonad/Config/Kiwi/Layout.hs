@@ -18,7 +18,7 @@ import XMonad.Layout.WindowNavigation
 forceWindow :: (LayoutClass l Window) => l Window -> l Window
 forceWindow = id
 
-defaultLayout = Full
+defaultLayout = renamed [Replace "Default"] Full
 
 kiwiLayoutHook = forceWindow workspacesLayoutHook
 
